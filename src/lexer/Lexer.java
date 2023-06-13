@@ -24,7 +24,6 @@ public class Lexer {
         try (FileWriter fileWriter = new FileWriter(filePath,true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
              bufferedWriter.write(output);
-           // System.out.println("内容已成功写入文件：" + filePath);
         } catch (IOException e) {
             System.out.println("写入文件时发生错误：" + e.getMessage());
         }

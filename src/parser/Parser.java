@@ -6,6 +6,8 @@ import symbols.Array;
 import symbols.Env;
 import symbols.Type;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class Parser {
@@ -13,18 +15,25 @@ public class Parser {
     private Token look;//当前看到的下一个token
     Env top = null;//当前符号表环境
     int used = 0;
-
+    //构造函数
     public Parser(Lexer l) throws IOException {
         lex = l;
         move();
     }
-
+    //移动到下一个Token
     void move() throws IOException {
         look = lex.scan();
     }
-
+    //语法错误行数
     void error(String s) {
-        throw new Error("near line " + lex.line + ": " + s);
+        String filePath = "src/out/ParserOut.txt";
+        try (FileWriter fileWriter = new FileWriter(filePath,true);
+             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+            bufferedWriter.write("near line " + lex.line + ": " + s);
+        } catch (IOException e) {
+            System.out.println("写入文件时发生错误：" + e.getMessage());
+        }
+      //  throw new Error("near line " + lex.line + ": " + s);
     }
 
     void match(int t) throws IOException {
