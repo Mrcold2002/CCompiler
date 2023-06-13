@@ -1,0 +1,24 @@
+L13: if not a(4) < 10 goto L15
+L16: c(6) = 1
+L17: if not c(6) < 10 goto L18
+L19: t11 = a(4) + c(6)
+ t12 = a(4) + c(6)
+ t13 = t12 / 2
+ t14 = t13 * 2
+ t15 = t11 - t14
+ if not t15 == 0 goto L20
+L21: goto L17
+L20: t16 = a(4) * 40
+ t17 = c(6) * 4
+ t18 = t16 + t17
+ t19 = a(4) + c(6)
+ A(5) [ t18 ] = t19
+L22: c(6) = c(6) + 1
+L23: t20 = a(4) + c(6)
+ if not t20 == 19 goto L17
+L24: goto L18
+ goto L17
+L18: a(4) = a(4) + 1
+ goto L13
+L15: c(7) = 1
+L14:
