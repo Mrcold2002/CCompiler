@@ -9,7 +9,7 @@ import java.nio.file.StandardOpenOption;
 import lexer.Lexer;
 public class Node {
     int lexline = 0;
-    private static String filePath="src/out/out1.txt";
+    private static String filePath="src/out/midCodeOut.txt";
 
     Node() {
         lexline = Lexer.line;

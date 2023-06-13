@@ -83,7 +83,7 @@ public class CCompilerClient {
 
     private void compileAndExecute(String code) throws IOException {
 
-        String filePath = "src/out/out1.txt"; // 替换为你的文本文件路径
+        String filePath = "src/out/midCodeOut.txt"; // 替换为你的文本文件路径
         //清空输出
         try (FileWriter fileWriter = new FileWriter(filePath, false);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {

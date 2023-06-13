@@ -12,7 +12,7 @@ public class test {
         return contentBuilder.toString();
     }
     public static void main(String[] args) throws IOException {
-        String filePath = "src/out/out1.txt"; // 替换为你的文本文件路径
+        String filePath = "src/out/midCodeOut.txt"; // 替换为你的文本文件路径
         String fileContent = readFileContent(filePath);
         System.out.println(fileContent);
     }
