@@ -1,0 +1,10 @@
+delimiter: {
+key word: int
+identifier: a
+delimiter: ;
+key word: a
+operator: =
+const value: 1
+delimiter: ;
+delimiter: }
+EOF symbol: $

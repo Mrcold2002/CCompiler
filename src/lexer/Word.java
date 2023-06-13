@@ -11,7 +11,7 @@ public class Word extends Token {
     public String toString() {
         return lexeme;
     }
-
+    //符号的标记
     public static final Word
             and = new Word("&&", Tag.AND), or = new Word("||", Tag.OR),
             eq = new Word("==", Tag.EQ), ne = new Word("!=", Tag.NE),
