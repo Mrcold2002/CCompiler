@@ -2,6 +2,7 @@ package UI;
 
 import lexer.Lexer;
 import parser.Parser;
+import inter.Node;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -138,6 +139,8 @@ public class CCompilerClient {
 
     // 运行按钮绑定后的函数
     private void compileAndExecute(String code) throws IOException {
+        //清空Node中的静态变量
+        Node.labels=0;
         // 清空输出文件内容
         clearOut(midCodeOutPath);
         clearOut(lexerOutPath);
@@ -148,13 +151,16 @@ public class CCompilerClient {
         midCodeOutputTextArea.setText("");
         // 开始运行
         Lexer lex = new Lexer(code + "$");
-        Parser parse = new Parser(lex);
+        Parser parse = new Parser(lex,this);
         parse.program();
-
+        outPut();
+    }
+    public void outPut() throws IOException {
         // 设置语法分析输出
         String parserFileContent = readFileContent(parserOutPath);
         parserOutputTextArea.setText(parserFileContent);
         if(!parserFileContent.isEmpty()) return;
+        else {parserOutputTextArea.setText("Compile successfully");}
 
         // 设置词法分析输出
         String lexerFileContent = readFileContent(lexerOutPath);
@@ -164,7 +170,6 @@ public class CCompilerClient {
         String midCodeFileContent = readFileContent(midCodeOutPath);
         midCodeOutputTextArea.setText(midCodeFileContent);
     }
-
     // 读取文件内容
     private String readFileContent(String filePath) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
