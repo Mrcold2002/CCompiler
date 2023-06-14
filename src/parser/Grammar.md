@@ -1,23 +1,24 @@
 ## 文法详情
 1. program -> block 程序由一个代码块组成
-2. block -> '{' decls stmts '}' 代码块由一对大括号包围，其中包括变量声明（decls）和语句序列（stmts）。
-3. decls -> decl decls | ε 变量声明可以是多个连续的声明（decl），或者可以为空。
-4. decl -> type idlist ';' 变量声明由类型（type）和一个或多个标识符（idlist）组成，并以分号结尾。
-5. type -> basic dims 类型由基本类型（basic）和可能的数组维度（dims）组成。
-6. dims -> '[' num ']' dims | ε 数组维度由一对方括号和一个数字（num）组成，可以有多个连续的维度，或者可以为空。
-7. idlist -> id | idlist ',' id 标识符列表由一个或多个标识符（id）组成，用逗号分隔。
-8. stmts -> stmt stmts | ε 语句序列可以是多个连续的语句（stmt），或者可以为空。
-9. stmt -> expr ';' | if '(' bool ')' stmt | if '(' bool ')' stmt else stmt |
-        while '(' bool ')' stmt | do stmt while '(' bool ')' ';' |
-        '{' stmts '}' 
-语句可以是表达式语句（expr ';'），if语句（包括可选的else分支），while循环语句，do-while循环语句，代码块（'{' stmts '}'），或其他类型的语句。
-10. expr -> id '=' bool | bool
-11. bool -> bool || join | join
-12. join -> join && equality | equality
-13. equality -> equality == rel | equality != rel | rel
-14. rel -> expr < expr | expr <= expr | expr >= expr | expr > expr | expr
-15. expr -> expr + term | expr - term | term
-16. term -> term * unary | term / unary | unary
-17. unary -> -unary | !unary | factor
-18. factor -> (bool) | id | id offset | num | real | true | false
-19. offset -> '[' bool ']' offset | ε
+2. block -> '{' stmts '}' 代码块由一对大括号包围，其中包括和语句序列（stmts）。
+3. stmts -> decls stmts| e | stmt stmts 语句序列可以包括变量声明（decls），或者单个语句，或者为空
+4. decls -> decl decls | e 变量声明语句可以连续声明
+5. decl ->  type ID (',' ID)* ';' 一种类型的变量可以通过,隔开多次声明
+5. type -> BASIC (dims)? 变量类型为基础类型，同时可以增加维度编程数组
+6. dims -> '[' NUM ']' (dims)? 维度可以叠加
+7. stmt -> ; | if_stmt | while_stmt | do_while_stmt 
+             | break_stmt | continue_stmt | block | assign_stmt
+8. if_stmt -> if '(' bool ')' stmt (else stmt)
+9. while_stmt -> while '(' bool ')' stmt
+10. do_while_stmt -> do stmt while '(' bool ')' ';'
+11. break_stmt -> BREAK ';'
+12. continue_stmt -> CONTINUE ';'
+13. assign_stmt -> ID 'o=' bool ';' | ID offset ';'//前者为直接给某一标识符赋值，后者通过数组赋值
+14. bool -> equality [ '&&' join]
+15. equality -> rel [|| equality]
+16. rel -> expr [('!='|'==') expr ]
+17. expr -> term [('+'|'-') term]
+18. term -> unary [('*'|'/') unary]
+19. unary -> '-' unary | '!' unary | factor
+20. factor -> '(' bool ')'| NUM | REAL | TRUE | FALSE | ID(offest)?
+21. offest -> '[' NUM ']' offest?
