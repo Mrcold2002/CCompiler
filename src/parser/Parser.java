@@ -35,7 +35,7 @@ public class Parser {
         String filePath = "src/out/ParserOut.txt";
         try (FileWriter fileWriter = new FileWriter(filePath,true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-            bufferedWriter.write("near line " + lex.line + ": " + s+'\n');
+            bufferedWriter.write("near line " + Lexer.line + ": " + s+'\n');
         } catch (IOException e) {
             System.out.println("写入文件时发生错误：" + e.getMessage());
         }
@@ -167,12 +167,14 @@ public class Parser {
                 return donode;
             case Tag.BREAK://break语句
                 match(Tag.BREAK);
+                Stmt tmpBreak = new Break();
                 match(';');
-                return new Break();
+                return tmpBreak;
             case Tag.CONTINUE://continue语句
                 match(Tag.CONTINUE);
+                Stmt tmpContinue = new Continue();
                 match(';');
-                return new Continue();
+                return tmpContinue;
             case '{'://新的代码块
                 return block();
             default://赋值语句

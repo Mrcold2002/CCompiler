@@ -45,7 +45,7 @@ public class Lexer {
         reserve(Type.Float);
         keywords=words;
         now=0;
-        line=0;
+        line=1;
         Code=code;
     }
     //从传入代码中持续读入字符
