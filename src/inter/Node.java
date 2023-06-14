@@ -9,18 +9,23 @@ import java.nio.file.StandardOpenOption;
 import lexer.Lexer;
 public class Node {
     int lexline = 0;
-    private static String filePath="src/out/midCodeOut.txt";
+    private static final String filePath="src/out/midCodeOut.txt";
 
     Node() {
         lexline = Lexer.line;
     }
 
     void error(String s) {
-        throw new Error("near line " + lexline + ": " + s);
+        String filePath = "src/out/ParserOut.txt";
+        try (FileWriter fileWriter = new FileWriter(filePath,true);
+             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+            bufferedWriter.write("near line " + lexline + ": " + s);
+        } catch (IOException e) {
+            System.out.println("写入文件时发生错误：" + e.getMessage());
+        }
     }
 
-    static int labels = 0;
-
+    public static int labels = 0;
     public int newlabel() {
         return ++labels;
     }
