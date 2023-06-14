@@ -2,8 +2,10 @@ package parser;
 /*
     代码进行了语法分析，在分析完成后，通过调用包inter中的节点定义，构建语法树，形成语法制导翻译，生成中间代码
  */
+import UI.CCompilerClient;
 import inter.*;
 import lexer.*;
+import UI.CCompilerClient.*;
 import symbols.Array;
 import symbols.Env;
 import symbols.Type;
@@ -15,11 +17,12 @@ import java.io.IOException;
 public class Parser {
     private Lexer lex;//词法分析器
     private Token look;//当前看到的下一个token
+    private CCompilerClient cCompilerClient;
     Env top ;//当前符号表环境
     int used ;//跟踪内存地址
     //构造函数
-    public Parser(Lexer l) throws IOException {
-        lex = l;
+    public Parser(Lexer l,CCompilerClient c) throws IOException {
+        lex = l;cCompilerClient=c;
         top=null;used=0;
         move();
     }
@@ -32,10 +35,11 @@ public class Parser {
         String filePath = "src/out/ParserOut.txt";
         try (FileWriter fileWriter = new FileWriter(filePath,true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-            bufferedWriter.write("near line " + lex.line + ": " + s);
+            bufferedWriter.write("near line " + lex.line + ": " + s+'\n');
         } catch (IOException e) {
             System.out.println("写入文件时发生错误：" + e.getMessage());
         }
+        cCompilerClient.outPut();
     }
     //将当前Token与期望Token进行比较
     void match(int t) throws IOException {
@@ -68,7 +72,12 @@ public class Parser {
             while (true) {
                 Token tok = look;
                 match(Tag.ID);//匹配一个标识符
-                Id id = new Id((Word) tok, p, used);//一个Token对应了一个标识符，标识符具有token,类型，内存位置
+                Id id = null;
+                try {
+                    id = new Id((Word) tok, p, used);//一个Token对应了一个标识符，标识符具有token,类型，内存位置
+                }catch (Exception e){
+                    error("wrong define");
+                }
                 if (top.table.get(tok) == null)//如果当前标识符没有被使用过
                     top.put(tok, id);//放入当前符号表
                 else

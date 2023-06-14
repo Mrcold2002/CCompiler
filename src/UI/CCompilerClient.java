@@ -145,17 +145,12 @@ public class CCompilerClient {
         midCodeOutputTextArea.setText("");
         // 开始运行
         Lexer lex = new Lexer(code + "$");
-        Parser parse = new Parser(lex);
+        Parser parse = new Parser(lex,this);
         parse.program();
         outPut();
     }
 
     public void outPut() throws IOException {
-        // 设置语法分析输出
-        String parserFileContent = readFileContent(parserOutPath);
-        parserOutputTextArea.setText(parserFileContent);
-        if(!parserFileContent.isEmpty()) return;
-        else {parserOutputTextArea.setText("Compile successfully");}
 
         // 设置词法分析输出
         String lexerFileContent = readFileContent(lexerOutPath);
@@ -164,6 +159,11 @@ public class CCompilerClient {
         // 设置中间代码输出
         String midCodeFileContent = readFileContent(midCodeOutPath);
         midCodeOutputTextArea.setText(midCodeFileContent);
+
+        // 设置语法分析输出
+        String parserFileContent = readFileContent(parserOutPath);
+        parserOutputTextArea.setText(parserFileContent);
+        if(parserFileContent.isEmpty()) parserOutputTextArea.setText("Compile successfully");
     }
 
     // 读取文件内容
