@@ -86,7 +86,7 @@ public class Parser {
                 if (look.tag == ';') {//如果匹配到 ';' 那么语句结束
                     match(';');
                     break;
-                } else if (look.tag == '=') {//如果匹配到 = ,则直接进行赋值 TODO 可以直接赋值
+                } else if (look.tag == '=') {//如果匹配到 = ,则直接进行赋值
                     error("can't assign a value directly for now");
                     match('=');
 

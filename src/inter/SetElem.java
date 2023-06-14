@@ -2,11 +2,11 @@ package inter;
 
 import symbols.Array;
 import symbols.Type;
-
+//数组元素赋值语句
 public class SetElem extends Stmt {
-    public Id array;
-    public Expr index;
-    public Expr expr;
+    public Id array;//数组的标识符
+    public Expr index;//数组索引表达式
+    public Expr expr;//数组赋值表达式
 
     public SetElem(Access x, Expr y) {
         array = x.array;

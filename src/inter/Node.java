@@ -19,7 +19,7 @@ public class Node {
         String filePath = "src/out/ParserOut.txt";
         try (FileWriter fileWriter = new FileWriter(filePath,true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-            bufferedWriter.write("near line " + lexline + ": " + s);
+            bufferedWriter.write("near line " + Lexer.line + ": " + s);
         } catch (IOException e) {
             System.out.println("写入文件时发生错误：" + e.getMessage());
         }
@@ -28,9 +28,9 @@ public class Node {
     public static int labels = 0;
     public int newlabel() {
         return ++labels;
-    }
+    }//标签计数+1
 
-    public void emitlabel(int i) {
+    public void emitlabel(int i) {//打印标签
         try (FileWriter fileWriter = new FileWriter(filePath,true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
             bufferedWriter.write("L" + i + ":");
@@ -41,7 +41,7 @@ public class Node {
         System.out.print("L" + i + ":");
     }
 
-    public void emit(String s) {
+    public void emit(String s) {//打印字符串
         try (FileWriter fileWriter = new FileWriter(filePath,true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
             bufferedWriter.write(" " + s+"\n");
@@ -49,6 +49,6 @@ public class Node {
         } catch (IOException e) {
             System.out.println("写入文件时发生错误：" + e.getMessage());
         }
-        System.out.println("\t" + s);
+        System.out.println("    " + s);
     }
 }

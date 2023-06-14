@@ -11,7 +11,7 @@ public class Do extends Stmt {
         stmt = null;
     }
 
-    public void init(Stmt s, Expr x) {//TODO 这里两个参数的顺序是不是反了
+    public void init(Stmt s, Expr x) {
         expr = x;
         stmt = s;
         if (expr.type != Type.Bool) {

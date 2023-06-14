@@ -21,6 +21,9 @@ public class Expr extends Node {
     }
 
     public void jumping(int t, int f) {
+        /*
+            t=0，当该Expr语句不成立时跳转到Lf
+         */
         emitjumps(toString(), t, f);
     }
 
@@ -32,7 +35,7 @@ public class Expr extends Node {
             emit("if " + test + " goto L" + t);
         } else if (f != 0) {
             emit("if not " + test + " goto L" + f);
-        } else ;
+        }  ;
     }
 
     public String toString() {
