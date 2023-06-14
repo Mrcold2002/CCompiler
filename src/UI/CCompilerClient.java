@@ -1,12 +1,15 @@
 package UI;
 
+import inter.Node;
 import lexer.Lexer;
 import parser.Parser;
-import inter.Node;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Element;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -15,17 +18,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Element;
-import javax.swing.text.Utilities;
 
 public class CCompilerClient {
     private JFrame frame;
@@ -55,8 +47,7 @@ public class CCompilerClient {
         codeTextArea = new JTextArea();
         codeTextArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         codeTextArea.getDocument().addDocumentListener(new LineNumberUpdater());
-        JScrollPane codeScrollPane = new JScrollPane(codeTextArea);
-        inputPanel.add(codeScrollPane, BorderLayout.CENTER);
+        //建立行号显示
         lineNumberTextArea = new JTextArea("1");
         lineNumberTextArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         lineNumberTextArea.setBackground(frame.getBackground());
@@ -67,7 +58,10 @@ public class CCompilerClient {
         lineNumberScrollPane.setBorder(null);
         inputPanel.add(lineNumberScrollPane, BorderLayout.WEST);
         panel.add(inputPanel);
-
+        // 将文本区域和行号文本区域添加到滚动面板中
+        JScrollPane codeScrollPane = new JScrollPane(codeTextArea);
+        codeScrollPane.setRowHeaderView(lineNumberTextArea);
+        inputPanel.add(codeScrollPane, BorderLayout.CENTER);
         // 创建右侧输出区域
         JPanel outputPanel = new JPanel(new GridLayout(3, 1, 5, 5));
 
@@ -151,10 +145,11 @@ public class CCompilerClient {
         midCodeOutputTextArea.setText("");
         // 开始运行
         Lexer lex = new Lexer(code + "$");
-        Parser parse = new Parser(lex,this);
+        Parser parse = new Parser(lex);
         parse.program();
         outPut();
     }
+
     public void outPut() throws IOException {
         // 设置语法分析输出
         String parserFileContent = readFileContent(parserOutPath);
@@ -170,6 +165,7 @@ public class CCompilerClient {
         String midCodeFileContent = readFileContent(midCodeOutPath);
         midCodeOutputTextArea.setText(midCodeFileContent);
     }
+
     // 读取文件内容
     private String readFileContent(String filePath) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
@@ -179,28 +175,29 @@ public class CCompilerClient {
     }
 
     // 更新行号显示
-    private class LineNumberUpdater implements javax.swing.event.DocumentListener {
-        public void insertUpdate(javax.swing.event.DocumentEvent e) {
-            updateLineNumbers();
-        }
-
-        public void removeUpdate(javax.swing.event.DocumentEvent e) {
-            updateLineNumbers();
-        }
-
-        public void changedUpdate(javax.swing.event.DocumentEvent e) {
-            updateLineNumbers();
-        }
-
+    private class LineNumberUpdater implements DocumentListener {
         private void updateLineNumbers() {
-            String text = codeTextArea.getText();
-            int caretPosition = codeTextArea.getDocument().getLength();
-            Element root = codeTextArea.getDocument().getDefaultRootElement();
-            StringBuilder lineNumbersText = new StringBuilder();
-            for (int i = 1; i <= root.getElementIndex(caretPosition) + 1; i++) {
-                lineNumbersText.append(i).append("\n");
+            int totalLines = codeTextArea.getLineCount();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 1; i <= totalLines; i++) {
+                sb.append(i).append("\n");
             }
-            lineNumberTextArea.setText(lineNumbersText.toString());
+            lineNumberTextArea.setText(sb.toString());
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            updateLineNumbers();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            updateLineNumbers();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            updateLineNumbers();
         }
     }
 
