@@ -136,7 +136,7 @@ public class Lexer {
                     return new Token('>');
                 }
         }
-        //如果开头为数字或者. 则表示为一个常量，NUM或FLOAT
+        //如果开头为数字 则表示为一个常量，NUM或FLOAT
         if (Character.isDigit(peek)) {
             int v = 0;
             do {
