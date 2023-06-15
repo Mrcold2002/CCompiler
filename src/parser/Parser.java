@@ -26,6 +26,7 @@ public class Parser {
         top=null;used=0;
         move();
         inter.Id.now=0;
+        Temp.count=0;
     }
     //移动到下一个Token
     void move() throws IOException {
