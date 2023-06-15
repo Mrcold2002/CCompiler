@@ -1,25 +1,8 @@
 delimiter: {
 key word: int
 identifier: a
-delimiter: ;
-key word: a
-operator: =
-const value: 1
-delimiter: ;
-key word: int
-identifier: b
 delimiter: ,
-identifier: c
-delimiter: ;
-key word: b
-operator: =
 key word: a
-delimiter: ;
-key word: c
-operator: =
-key word: a
-delimiter: +
-key word: b
 delimiter: ;
 delimiter: }
 EOF symbol: $

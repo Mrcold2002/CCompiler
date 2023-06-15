@@ -19,7 +19,7 @@ public class Node {
         String filePath = "src/out/ParserOut.txt";
         try (FileWriter fileWriter = new FileWriter(filePath,true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-            bufferedWriter.write("near line " + Lexer.line + ": " + s);
+            bufferedWriter.write("near line " + Lexer.line + ": " + s+"\n");
         } catch (IOException e) {
             System.out.println("写入文件时发生错误：" + e.getMessage());
         }
@@ -44,7 +44,7 @@ public class Node {
     public void emit(String s) {//打印字符串
         try (FileWriter fileWriter = new FileWriter(filePath,true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-            bufferedWriter.write(" " + s+"\n");
+            bufferedWriter.write("    " + s+'\n');
             // System.out.println("内容已成功写入文件：" + filePath);
         } catch (IOException e) {
             System.out.println("写入文件时发生错误：" + e.getMessage());

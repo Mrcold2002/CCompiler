@@ -11,7 +11,7 @@ public class Logical extends Expr {
         expr1 = x1;
         expr2 = x2;
         type = check(expr1.type, expr2.type);
-        if (type == null) error("type error");
+        if (type == null) error("type error");//这里保证x1,x2都是bool类型
     }
 
     public Type check(Type p1, Type p2) {

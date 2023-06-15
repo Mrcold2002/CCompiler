@@ -1,6 +1,12 @@
 {
-  else{
-    int a;
-    a = 1;
-  }
+  int a[10];
+}
+{
+    break;
+}
+{
+    a;
+}
+{
+    int 1a;
 }

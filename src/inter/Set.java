@@ -1,7 +1,7 @@
 package inter;
 
 import symbols.Type;
-
+//左部为标识符，右部分为表达式
 public class Set extends Stmt {
     public Id id;
     public Expr expr;
