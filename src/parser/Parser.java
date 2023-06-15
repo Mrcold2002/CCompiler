@@ -25,6 +25,7 @@ public class Parser {
         lex = l;cCompilerClient=c;
         top=null;used=0;
         move();
+        inter.Id.now=0;
     }
     //移动到下一个Token
     void move() throws IOException {
